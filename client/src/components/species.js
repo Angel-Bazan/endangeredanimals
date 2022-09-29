@@ -26,14 +26,15 @@ function Species() {
   }, []);
 
   return (
-    <section className="species">
+    <section className="species container">
       <h2>List of Species</h2>
-      <ul id="species" className="spec-cards">
+      <ul id="species" className="row justify-content-md-center list-unstyled">
         {species.map((species, index) => {
           return (
             
-            <li key={index} className="spec-card">
-              
+            <li key={index} className="col col-sm-6 mb-3" >
+             <div className="card">
+              <div className="card-body">
                 <strong>Common Name:</strong>
                 {species.common_name}
               
@@ -48,7 +49,7 @@ function Species() {
                 {species.population}
               
               <br />
-              <button>
+              <button className="btn btn-danger">
                 <span
                   className="material-symbols-outlined"
                   onClick={() => deleteSpecies(species.id)}
@@ -56,6 +57,8 @@ function Species() {
                   delete
                 </span>
               </button>
+                </div>
+              </div>
             </li>
           );
         })}

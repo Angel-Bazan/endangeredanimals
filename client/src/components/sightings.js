@@ -1,32 +1,56 @@
 import { useState, useEffect } from "react";
-// import Form from "./form";
+import SightingsForm from "./sightingsForm";
 
 function Sightings() {
   const [sightings, setSightings] = useState([]);
 
+  const addSightings = (newSightings) => {
+    setSightings((sightings) => [...sightings, newSightings]);
+  };
+
+  const deleteSightings = async (deleteId) => {
+    await fetch(`http://localhost:5000/api/sightings/${deleteId}`, {
+      method: "DELETE",
+    });
+
+    await getSightings(); //
+  };
+  const getSightings = async () => {
+    const response = await fetch(`http://localhost:5000/api/sightings`);
+    const sighting = await response.json();
+    setSightings(sighting);
+  };
   useEffect(() => {
-    fetch("http://localhost:5000/api/sightings")
-      .then((response) => response.json())
-      .then((sightings) => {
-            setSightings(sightings);
-          });
+    getSightings();
   }, []);
 
-
-
   return (
-    <div className="sightings">
+    <section className="sightings">
       <h2> List of Sghtings </h2>
-      <ul>
+      <ul className="row justify-content-md-center list-unstyled">
         {sightings.map((sighting) => (
-          <li key={`sighting-${sighting.id}`}>
-            {" "}
-            Nick_Name:{sighting.nick_name} Location:{sighting.location}  
+          <li className="col col-sm-6 mb-3" key={`sighting-${sighting.id}`}>
+            <div className="card">
+              <div className="card-body">
+                <strong>Nick_Name:</strong>
+                {sighting.nick_name} <br /> <strong>Location:</strong>
+                {sighting.location} <br /> <strong>Date Time:</strong>
+                {sighting.date_time} <br />
+                <button  className="btn btn-danger">
+                  <span
+                   
+                    onClick={() => deleteSightings(sightings.id)}
+                  >
+                    delete
+                  </span>
+                </button>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
-      
-    </div>
+      <SightingsForm addSightings={addSightings} />
+    </section>
   );
 }
 

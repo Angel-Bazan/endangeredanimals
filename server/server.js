@@ -46,6 +46,16 @@ app.post('/api/species', cors(), async (req, res) => {
   console.log(result.rows[0]);
   res.json(result.rows[0]);
 });
+app.post('/api/sightings', cors(), async (req, res) => {
+  const newSightings = { nick_name: req.body.nick_name, date_time: req.body.date_time, location: req.body.location, }
+  console.log([newSightings.nick_name, newSightings.location]);
+  const result = await db.query(
+      'INSERT INTO sightings (nick_name, date_time, location) VALUES($1, $2, $3) RETURNING *',
+      [newSightings.nick_name, newSightings.date_time, newSightings.location]
+  );
+  console.log(result.rows[0]);
+  res.json(result.rows[0]);
+});
 
 app.delete('/api/species/:id', async (req, res) => {
   // : acts as a placeholder
@@ -53,6 +63,19 @@ app.delete('/api/species/:id', async (req, res) => {
   console.log(speciesId);
   try {
     await db.query('DELETE FROM species WHERE id=$1', [speciesId]);
+    res.send({ status: "success" });
+  } catch (e) {
+    console.log(e)
+    return res.status(400).json({ e });
+  }
+});
+
+app.delete('/api/sightings/:id', async (req, res) => {
+  // : acts as a placeholder
+  const sightingsId = req.params.id;
+  console.log(sightingsId);
+  try {
+    await db.query('DELETE FROM sightings WHERE id=$1', [sightingsId]);
     res.send({ status: "success" });
   } catch (e) {
     console.log(e)
