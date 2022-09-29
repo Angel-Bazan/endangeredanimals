@@ -1,11 +1,14 @@
 import "./App.css";
-import Students from "./components/students";
+import Species from "./components/species";
+import Sightings from "./components/sightings";
 
 function App() {
   return (
     <div className="App">
-      Hello from Techtonica
-      <Students />
+      <h1>Fantastic Beasts</h1>
+      <p>Include Beast Information</p>
+      <Species />
+      <Sightings />
     </div>
   );
 }

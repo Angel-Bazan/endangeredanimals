@@ -15,38 +15,52 @@ app.get('/', (req, res) => {
 });
 
 // create the get request
-app.get('/api/students', cors(), async (req, res) => {
-  // const STUDENTS = [
-
-  //     { id: 1, firstName: 'Lisa', lastName: 'Lee' },
-  //     { id: 2, firstName: 'Eileen', lastName: 'Long' },
-  //     { id: 3, firstName: 'Fariba', lastName: 'Dadko' },
-  //     { id: 4, firstName: 'Cristina', lastName: 'Rodriguez' },
-  //     { id: 5, firstName: 'Andrea', lastName: 'Trejo' },
-  // ];
-  // res.json(STUDENTS);
+app.get('/api/species', cors(), async (req, res) => {
+ 
   try {
-    const { rows: students } = await db.query('SELECT * FROM students');
-    res.send(students);
+    const { rows: species } = await db.query('SELECT * FROM species');
+    res.send(species);
+  } catch (e) {
+    return res.status(400).json({ e });
+  }
+});
+
+app.get('/api/sightings', cors(), async (req, res) => {
+ 
+  try {
+    const { rows: sightings } = await db.query('SELECT individuals.nick_name, sightings.date_time, sightings.healthy, sightings.location FROM individuals INNER JOIN sightings ON individuals.species_id=sightings.individual_id');
+    res.send(sightings);
   } catch (e) {
     return res.status(400).json({ e });
   }
 });
 
 // create the POST request
-app.post('/api/students', cors(), async (req, res) => {
-  const newUser = {
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-  };
-  console.log([newUser.firstname, newUser.lastname]);
+app.post('/api/species', cors(), async (req, res) => {
+  const newSpecies = { common_name: req.body.common_name, scientific_name: req.body.scientific_name, population: req.body.population, conservation_status: req.body.conservation_status }
+  console.log([newSpecies.common_name, newSpecies.scientific_name]);
   const result = await db.query(
-    'INSERT INTO students(firstname, lastname) VALUES($1, $2) RETURNING *',
-    [newUser.firstname, newUser.lastname],
+      'INSERT INTO species (common_name, scientific_name, population, conservation_status) VALUES($1, $2, $3, $4) RETURNING *',
+      [newSpecies.common_name, newSpecies.scientific_name, newSpecies.population, newSpecies.conservation_status]
   );
   console.log(result.rows[0]);
   res.json(result.rows[0]);
 });
+
+app.delete('/api/species/:id', async (req, res) => {
+  // : acts as a placeholder
+  const speciesId = req.params.id;
+  console.log(speciesId);
+  try {
+    await db.query('DELETE FROM species WHERE id=$1', [speciesId]);
+    res.send({ status: "success" });
+  } catch (e) {
+    console.log(e)
+    return res.status(400).json({ e });
+  }
+});
+
+
 
 // console.log that your server is up and running
 app.listen(PORT, () => {
