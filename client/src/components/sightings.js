@@ -26,10 +26,10 @@ function Sightings() {
 
   return (
     <section className="sightings">
-      <h2> List of Sghtings </h2>
+      <h2 className="list-of-sightings"> List of Sghtings </h2>
       <ul className="row justify-content-md-center list-unstyled">
-        {sightings.map((sighting) => (
-          <li className="col col-sm-6 mb-3" key={`sighting-${sighting.id}`}>
+        {sightings.map((sighting, index) => (
+          <li key={index} className="col col-sm-6 mb-3" >
             <div className="card">
               <div className="card-body">
                 <strong>Nick_Name:</strong>

@@ -68,6 +68,9 @@
   overflow: hidden;
   text-decoration: none;
 }
+.App{
+  font-family: cursive;
+}
 .btn-danger {
   --bs-btn-font-weight: 600;
   --bs-btn-color: var(--bs-white);
@@ -82,3 +85,20 @@
   --bs-btn-active-bg: #{shade-color($bd-violet, 20%)};
   --bs-btn-active-border-color: #{shade-color($bd-violet, 20%)};
 }
+body{
+  background: url("/Users/tpl522_14/endangeredanimals/client/public/nifflerGolden.jpeg")  no-repeat center center fixed;
+
+  -webkit-background-size: cover;
+   -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; 
+}
+.list-of-species{
+  color:aquamarine;
+}
+.list-of-sightings{
+  color:aquamarine;
+}
+/* .card{
+  width: 18rem;
+} */
