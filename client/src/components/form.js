@@ -5,7 +5,8 @@ const Form = (props) => {
     common_name: "",
     scientific_name: "",
     population:"",
-    conservation_status: "CE"
+    conservation_status: "CE",
+    image:""
   });
 
   //create functions that handle the event of the user typing into the form
@@ -87,7 +88,7 @@ const Form = (props) => {
           value={species.population}
           onChange={handlePopulation}
         />
-       <select name="conservationstatus" onChange={handleCodeChange}>
+       <select name="conservationstatus" onChange={handleCodeChange} value={species.conservation_status}>
           <option value="EN">Endangered</option>
           <option value="TH">Threatened</option>
           <option value="WA">Watch</option>
@@ -95,7 +96,7 @@ const Form = (props) => {
           <option value="NC">No Concern</option>
        </select>
       </fieldset>
-      <button type="submit">Add</button>
+      <button type="submit" className="btn btn-primary">Add</button>
     </form>
   );
 };
